@@ -63,26 +63,37 @@ SOCIAL_FORMATS <- list(
 )
 
 # Re-wrap title and subtitle to fit narrow formats (story, square)
-wrap_labels <- function(plot, title_width, subtitle_width) {
+wrap_labels <- function(plot, title_width, subtitle_width, caption_width = NULL) {
   rewrap <- function(x, w) {
     if (is.null(x) || !is.character(x)) return(x)
     paste(strwrap(gsub("\\s*\n\\s*", " ", x), width = w), collapse = "\n")
   }
   plot$labels$title <- rewrap(plot$labels$title, title_width)
   plot$labels$subtitle <- rewrap(plot$labels$subtitle, subtitle_width)
+  # captions keep their line breaks (note / source / brand); only long lines wrap
+  cap <- plot$labels$caption
+  if (!is.null(caption_width) && is.character(cap))
+    plot$labels$caption <- paste(unlist(lapply(strsplit(cap, "\n", fixed = TRUE)[[1]],
+                                               function(l) strwrap(l, width = caption_width))), collapse = "\n")
   plot
 }
 
+# phone_text > 1 draws text larger in the phone formats (story, square), which
+# are seen at ~390 px wide. Charts must be laid out for it: the story charts use
+# 1.35; the tracker charts keep 1 (their panels and labels need the room).
 save_social <- function(plot, stem, out_dir = "outputs/social",
-                        formats = names(SOCIAL_FORMATS), dpi = 150) {
+                        formats = names(SOCIAL_FORMATS), dpi = 150, phone_text = 1) {
   dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
   paths <- character()
   for (f in formats) {
     sz <- SOCIAL_FORMATS[[f]]
     path <- file.path(out_dir, sprintf("%s_%s.png", stem, f))
-    p <- if (sz[["w"]] <= 1080) wrap_labels(plot, 40, 64) else plot
+    narrow <- sz[["w"]] <= 1080
+    k <- if (narrow) phone_text else 1          # same pixels, higher dpi = larger text
+    p <- if (narrow) wrap_labels(plot, round(40 / k), round(64 / k), round(92 / k)) else plot
+    d <- round(dpi * k)
     ggplot2::ggsave(path, p, device = ragg::agg_png,
-                    width = sz[["w"]] / dpi, height = sz[["h"]] / dpi, dpi = dpi,
+                    width = sz[["w"]] / d, height = sz[["h"]] / d, dpi = d,
                     bg = SAIN$surface)
     paths <- c(paths, path)
   }

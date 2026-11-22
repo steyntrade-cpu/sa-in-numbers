@@ -1,0 +1,13 @@
+---
+title: "Stories"
+subtitle: "One topic, one dataset, a few charts. Every story shows what the data can't tell us, and links to its data and code."
+listing:
+  contents: "*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  fields: [image, date, title, description, categories]
+  feed: true
+language:
+  listing-page-no-matches: "The first stories are on their way."
+---

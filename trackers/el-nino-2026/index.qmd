@@ -85,8 +85,8 @@ El Niño index (RONI, °C)
 
 ```{r dam-stat, results='asis'}
 if (!is.null(s$dams_national_pct) && !is.na(s$dams_national_pct)) {
-  cat(sprintf('::: {.stat}\n::: {.value}\n%.0f%%\n:::\n::: {.label}\nnational dam storage\n:::\n::: {.context}\na year ago: %.0f%%\n:::\n:::\n',
-              s$dams_national_pct, s$dams_national_pct_last_year))
+  cat(sprintf('::: {.stat}\n::: {.value}\n%.0f%%\n:::\n::: {.label}\nnational dam storage\n:::\n::: {.context}\nDWS report of %s; a year ago: %.0f%%\n:::\n:::\n',
+              s$dams_national_pct, format(as.Date(s$dams_report_date), "%d %b"), s$dams_national_pct_last_year))
 }
 ```
 :::

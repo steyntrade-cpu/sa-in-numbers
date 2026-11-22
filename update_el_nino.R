@@ -99,6 +99,13 @@ if (!is.null(dams) && nrow(dams) > 0) {
   dam_date <- dam_sum$report_date[dam_sum$region == "National"]
   if (as.Date(dam_date) < Sys.Date() - 8)
     warning("Dam figures are from the DWS report of ", dam_date, " (older than a week)")
+} else if (file.exists("data/processed/dams_summary_latest.csv")) {
+  # No download this run (e.g. DWS not answering GitHub's servers, which keep no
+  # previous download): carry the last saved weekly report forward. Its report
+  # date travels with it, so the page shows which week the figures are from.
+  dam_sum <- readr::read_csv("data/processed/dams_summary_latest.csv", show_col_types = FALSE)
+  warning("DWS download failed; using the saved report of ",
+          dam_sum$report_date[dam_sum$region == "National"])
 }
 
 # 4. Headline numbers ------------------------------------------------------

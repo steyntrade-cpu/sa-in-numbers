@@ -8,13 +8,14 @@ graphics that go with it. The first story is the **El Niño summer tracker 2026/
 ## Folder layout
 
 ```
-_quarto.yml                 website settings (edit the YOUR-GITHUB-NAME placeholders)
+_quarto.yml                 website settings
 index.qmd, about.qmd        home and methods pages
 styles.scss                 website colours and the headline "stat" boxes
 trackers/el-nino-2026/      the tracker page
 update_el_nino.R            weekly script: fetch -> compute -> charts -> data files
 update_sa_temperature.R     weekly script for the national temperature tracker
 compare_chirps.R            check: NASA POWER rain vs CHIRPS rain
+stories/                    dated story pages (one folder each) + build_story_charts.R
 config/regions.csv          the six climate regions (five summer-rainfall + Western Cape)
 config/sites.csv            45 sites, each in its own NASA POWER grid cell, with its region
 config/sa_grid.csv          114 points one degree apart across South Africa (temperature)
@@ -85,6 +86,21 @@ Africa (`config/sa_grid.csv`), averaged into one national series since 1981. The
 run downloads the full record (15-30 minutes; repeated once a year); weekly runs
 re-download only the last two years. The national history is kept in
 `data/sa_temperature/`. Page: `trackers/sa-temperature/index.qmd`.
+
+## Stories
+
+Stories are dated snapshots, unlike the trackers. Each lives in `stories/<yyyy-mm-slug>/` with
+its page (`index.qmd`), charts (`chart-*.png`, plus `social/` in three post sizes), its frozen
+numbers (`data.csv`) and social captions (`_captions.md`; the underscore keeps Quarto from
+publishing it).
+
+- `Rscript stories/build_story_charts.R` draws the charts. The first run saves each story's
+  numbers to `data.csv`; later runs redraw from that file, so weekly data updates never change a
+  published story. Delete `data.csv` to rebuild a story from current data.
+- New stories start with `draft: true`: `quarto preview` shows them, but the published site does
+  not. Change it to `draft: false` and push to publish.
+- `tests/check_era5_temperature.R` repeats a temperature ranking in ECMWF ERA5 (via Open-Meteo,
+  ~10 minutes, needs internet) before a "warmest since 1981" claim goes out.
 
 ## Every week (Monday)
 

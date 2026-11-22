@@ -6,6 +6,9 @@ project:
     - "data/processed/*.csv"
     - "data/processed/*.json"
     - "data/archive/*.csv"
+    - "stories/*/data.csv"
+    - "stories/*/*.png"
+    - "stories/*/social/*_square.png"
 
 website:
   title: "SA in Numbers"
@@ -21,6 +24,8 @@ website:
             href: trackers/el-nino-2026/index.qmd
           - text: "South Africa's temperature"
             href: trackers/sa-temperature/index.qmd
+      - text: "Stories"
+        href: stories/index.qmd
       - text: "About & methods"
         href: about.qmd
     right:

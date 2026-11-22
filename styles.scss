@@ -29,3 +29,8 @@ $headings-font-weight: 700;
   padding-left: 14px;
   color: #52514e;
 }
+
+/* Stories: the description is for listings and link previews; the subtitle already says it */
+#title-block-header .description { display: none; }
+.story-chart { margin: 1.2rem 0 1.6rem; }
+.story-chart img { width: 100%; height: auto; }
