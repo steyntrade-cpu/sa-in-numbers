@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://steyntrade-cpu.github.io/sa-in-numbers/trackers/sa-temperature/index.html</loc>
-    <lastmod>2026-11-22T08:34:29.029Z</lastmod>
-  </url>
-  <url>
     <loc>https://steyntrade-cpu.github.io/sa-in-numbers/index.html</loc>
-    <lastmod>2026-11-22T08:34:29.025Z</lastmod>
+    <lastmod>2026-11-22T08:48:46.378Z</lastmod>
   </url>
   <url>
-    <loc>https://steyntrade-cpu.github.io/sa-in-numbers/about.html</loc>
-    <lastmod>2026-11-22T08:34:28.984Z</lastmod>
+    <loc>https://steyntrade-cpu.github.io/sa-in-numbers/trackers/sa-temperature/index.html</loc>
+    <lastmod>2026-11-22T08:48:46.378Z</lastmod>
   </url>
   <url>
     <loc>https://steyntrade-cpu.github.io/sa-in-numbers/trackers/el-nino-2026/index.html</loc>
-    <lastmod>2026-11-22T08:34:29.028Z</lastmod>
+    <lastmod>2026-11-22T08:48:46.378Z</lastmod>
+  </url>
+  <url>
+    <loc>https://steyntrade-cpu.github.io/sa-in-numbers/about.html</loc>
+    <lastmod>2026-11-22T08:48:46.359Z</lastmod>
   </url>
 </urlset>
