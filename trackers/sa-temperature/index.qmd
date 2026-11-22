@@ -13,6 +13,10 @@ s <- m$summary
 
 **Latest data: `r fmt_date(s$as_of)`.**
 
+::: {.callout-warning title="The latest months may read too warm"}
+NASA POWER fills the most recent two to three months with a different model (GEOS-IT) from the one behind every earlier year (MERRA-2). For 1 October to 15 November 2026, an independent reanalysis, ECMWF ERA5, is about 1.2 °C cooler than NASA POWER at the same points. Over 1981–2025 the two never differed by more than 0.4 °C for those dates. In ERA5, 1 October to 15 November 2026 is the third warmest since 1981, behind 2015 and 2022, not the warmest. Treat values from the last two to three months as unconfirmed until NASA replaces them with MERRA-2, or until this page switches source. (Check added 22 November 2026.)
+:::
+
 ::: {.headline-grid}
 ::: {.stat}
 ::: {.value}

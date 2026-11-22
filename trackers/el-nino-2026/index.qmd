@@ -131,6 +131,10 @@ if (length(wc)) {
 
 ## Heat
 
+::: {.callout-warning title="Hot-day counts are being checked"}
+The hot days use NASA POWER's daily maximum temperature. For recent months NASA fills these from a different model (GEOS-IT) than the 1991–2020 thresholds (MERRA-2). For mean temperature, ERA5 shows 1 October to 15 November 2026 about 1.2 °C cooler than NASA POWER. If maximum temperatures are affected the same way, the counts below are too high. A check against ERA5 is in progress. (Added 22 November 2026.)
+:::
+
 ```{r heat}
 #| fig-height: 4.5
 #| fig-alt: "Number of hot days so far this season compared with normal and with 1997/98 and 2015/16."
@@ -220,5 +224,6 @@ Code: every number on this page is produced by `update_el_nino.R` in the project
 ## Update log
 
 - `r s$as_of`: latest weekly update.
+- 22 November 2026: caution added on hot-day counts (NASA POWER's recent data run warm against ERA5).
 - 21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).
 - 21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS "Total" rows were counted as dams; % full figures were not affected).
