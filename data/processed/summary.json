@@ -3,16 +3,16 @@
   "as_of": "2026-11-15",
   "season_day": 46,
   "rain_prelim_from": "2026-11-01",
-  "heat_as_of": "2026-11-18",
-  "heat_season_day": 49,
+  "heat_as_of": "2026-11-19",
+  "heat_season_day": 50,
   "rain_pct_of_normal": 71,
   "rain_pct_of_season": 13.3,
   "rain_pct_of_season_normal": 18.7,
   "rain_percentile_vs_1991_2020": 23,
   "rain_rank_driest": 10,
   "n_seasons": 46,
-  "heat_days": 10.3,
-  "heat_days_normal": 4.9,
+  "heat_days": 10.9,
+  "heat_days_normal": 5.1,
   "heat_rank_hottest": 3,
   "compare": [
     {
@@ -23,7 +23,7 @@
     {
       "season": "2015/16",
       "rain_pct_of_normal": 36,
-      "heat_days": 12.8
+      "heat_days": 12.9
     }
   ],
   "regions": [
@@ -43,8 +43,8 @@
       "n_seasons": 46,
       "rain_mm_2015": 22.2,
       "rain_mm_1997": 90.1,
-      "heat_days": 14.3,
-      "heat_days_normal": 5,
+      "heat_days": 15.3,
+      "heat_days_normal": 5.2,
       "heat_days_2015": 16.4,
       "heat_rank_hottest": 2
     },
@@ -64,8 +64,8 @@
       "n_seasons": 46,
       "rain_mm_2015": 44.6,
       "rain_mm_1997": 172.8,
-      "heat_days": 14.6,
-      "heat_days_normal": 5,
+      "heat_days": 15.6,
+      "heat_days_normal": 5.1,
       "heat_days_2015": 16.9,
       "heat_rank_hottest": 3
     },
@@ -85,8 +85,8 @@
       "n_seasons": 46,
       "rain_mm_2015": 40.8,
       "rain_mm_1997": 133.1,
-      "heat_days": 12.4,
-      "heat_days_normal": 5,
+      "heat_days": 12.8,
+      "heat_days_normal": 5.1,
       "heat_days_2015": 13.4,
       "heat_rank_hottest": 2
     },
@@ -106,8 +106,8 @@
       "n_seasons": 46,
       "rain_mm_2015": 39,
       "rain_mm_1997": 185.8,
-      "heat_days": 6.6,
-      "heat_days_normal": 4.9,
+      "heat_days": 7,
+      "heat_days_normal": 5,
       "heat_days_2015": 17,
       "heat_rank_hottest": 10
     },
@@ -127,10 +127,10 @@
       "n_seasons": 46,
       "rain_mm_2015": 82.5,
       "rain_mm_1997": 133.5,
-      "heat_days": 4.8,
+      "heat_days": 5.6,
       "heat_days_normal": 4.9,
       "heat_days_2015": 7.4,
-      "heat_rank_hottest": 19
+      "heat_rank_hottest": 15
     },
     {
       "region_id": "WCP",
@@ -149,8 +149,8 @@
       "rain_mm_2015": 373.1,
       "rain_mm_1997": 365.2,
       "heat_days": 9.2,
-      "heat_days_normal": 4.9,
-      "heat_days_2015": 6,
+      "heat_days_normal": 5.1,
+      "heat_days_2015": 6.2,
       "heat_rank_hottest": 6
     }
   ],
@@ -160,9 +160,9 @@
   "roni_rank_among_events": 6,
   "roni_rank_tied": true,
   "roni_n_events": 23,
-  "dams_national_pct": 93.5,
-  "dams_national_pct_last_year": 91.7,
-  "dams_report_date": "2026-11-16",
-  "dams_n": 227,
-  "lines": ["Summer rain since 1 Oct: 71% of normal (to 15 November 2026).", "Driest region: North West & Free State, 46% of normal.", "Hot days so far: 10.3 vs a normal 4.9 (to 18 November 2026).", "Same date in 2015/16: 36% of normal rain, 12.8 hot days.", "El Nino index (RONI, ASO 2026): +1.97.", "Dams: 93.5% full (a year ago 91.7%).", "Western Cape winter 2026 (Apr-Sep) rain: 120% of normal."]
+  "dams_national_pct": null,
+  "dams_national_pct_last_year": null,
+  "dams_report_date": null,
+  "dams_n": null,
+  "lines": ["Summer rain since 1 Oct: 71% of normal (to 15 November 2026).", "Driest region: North West & Free State, 46% of normal.", "Hot days so far: 10.9 vs a normal 5.1 (to 19 November 2026).", "Same date in 2015/16: 36% of normal rain, 12.9 hot days.", "El Nino index (RONI, ASO 2026): +1.97.", "Western Cape winter 2026 (Apr-Sep) rain: 120% of normal."]
 }
