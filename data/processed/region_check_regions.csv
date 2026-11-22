@@ -1,0 +1,7 @@
+"region_id","region","season","n_sites","annual_mm","season_share","r_within","r_nearest_other","enso_r","verdict"
+"WHV","North West & Free State","summer",12,545,91,0.77,0.52,-0.49,"OK"
+"EHV","Highveld","summer",7,708,92,0.74,0.53,-0.29,"OK"
+"LPL","Limpopo & Lowveld","summer",8,566,93,0.72,0.53,-0.45,"OK"
+"KZN","KwaZulu-Natal interior","summer",5,988,87,0.72,0.51,-0.3,"OK"
+"ECP","Eastern Cape & East Griqualand","summer",8,1006,84,0.74,0.49,-0.38,"OK"
+"WCP","Western Cape","winter",5,623,62,0.67,NA,0.22,"OK"

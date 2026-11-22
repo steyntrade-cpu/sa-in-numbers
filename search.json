@@ -1,0 +1,135 @@
+[
+  {
+    "objectID": "trackers/sa-temperature/index.html",
+    "href": "trackers/sa-temperature/index.html",
+    "title": "South Africa’s temperature, day by day",
+    "section": "",
+    "text": "Latest data: 18 November 2026."
+  },
+  {
+    "objectID": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
+    "href": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
+    "title": "South Africa’s temperature, day by day",
+    "section": "What the data can’t tell us",
+    "text": "What the data can’t tell us\n\n\nThese are modelled temperatures, not weather-station readings. NASA POWER (MERRA-2) combines satellite data, weather observations and a weather model on a grid of roughly 50 km. It suits comparing years with each other; local station values will differ.\nThe latest weeks are provisional. NASA fills recent weeks with a near-real-time model and replaces them with its long-term record every few months, so recent values can shift a little.\nOne national number hides big differences. The Lowveld, the Karoo and the coast can have very different days; this is the average over the whole country.\nA year so far is not a full year. Ranks for the current year compare the same dates in every year, and can change as the year goes on."
+  },
+  {
+    "objectID": "trackers/sa-temperature/index.html#method",
+    "href": "trackers/sa-temperature/index.html#method",
+    "title": "South Africa’s temperature, day by day",
+    "section": "Method",
+    "text": "Method\n\nTemperature: daily mean air temperature at 2 m (T2M) from NASA POWER at 114 points one degree apart covering South Africa (Lesotho and Eswatini excluded), averaged with weights for grid-cell area (cosine of latitude).\nLines: a 7-day average (each day and the six before it), so the lines show weather spells rather than single days.\nAverage: the 1991–2020 mean for each day of the year (WMO standard period).\nRanks and anomalies: for the current year, 1 January to the latest date, compared with the same dates in every other year. Full-year values use complete calendar years.\nTrend: a straight line fitted to the yearly averages of complete years (ordinary least squares), with its 95% confidence interval. Year-to-year swings are large, so the trend explains only part of the variation (r² = 0.19).\nThis year’s estimate: the 1991–2020 yearly average plus this year’s difference from normal so far. An average of January to November alone would leave out December and look too cool.\nWarming since the 1980s: average of the last ten full years minus the average of 1981–1990 (+0.6°C).\n\nDownload the data: daily national temperature · yearly averages · summary · grid points\nCode: every number on this page is produced by update_sa_temperature.R in the project’s GitHub repository."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SA in Numbers",
+    "section": "",
+    "text": "El Niño summer tracker 2026/27: rain, heat and dam levels through a very strong El Niño summer, updated every Monday.\nSouth Africa’s temperature, day by day: every day of the year compared with every year since 1981, updated every Monday."
+  },
+  {
+    "objectID": "index.html#live-trackers",
+    "href": "index.html#live-trackers",
+    "title": "SA in Numbers",
+    "section": "",
+    "text": "El Niño summer tracker 2026/27: rain, heat and dam levels through a very strong El Niño summer, updated every Monday.\nSouth Africa’s temperature, day by day: every day of the year compared with every year since 1981, updated every Monday."
+  },
+  {
+    "objectID": "index.html#how-we-work",
+    "href": "index.html#how-we-work",
+    "title": "SA in Numbers",
+    "section": "How we work",
+    "text": "How we work\n\nNumbers first. Short text, clear charts, no opinions on policy.\nUncertainty shown. Estimates come with ranges, and every story says what the data can’t tell us.\nOpen. Every chart links to its data and the code that made it.\n\nAbout and methods"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About and methods",
+    "section": "",
+    "text": "SA in Numbers publishes South African statistics as charts, short videos and open datasets. The aim is to show what the numbers say, how sure we can be, and what they can’t tell us."
+  },
+  {
+    "objectID": "about.html#principles",
+    "href": "about.html#principles",
+    "title": "About and methods",
+    "section": "Principles",
+    "text": "Principles\n\nOfficial and reputable sources first. Each chart names its source and the date the data was downloaded.\nModelled estimates are labelled. Where we estimate, project or fill gaps, the chart says so and shows a range. Our estimates are never presented as official statistics.\nNo cherry-picking. Comparison periods are chosen before a tracker starts and kept for its whole run.\nCorrections are public. Errors are fixed in place, with a dated note in the story’s update log."
+  },
+  {
+    "objectID": "about.html#methods",
+    "href": "about.html#methods",
+    "title": "About and methods",
+    "section": "Methods",
+    "text": "Methods\nEach story uses whatever method fits its data: simple summaries, regression, time-series models, or Bayesian models where data are sparse. Every story page describes its method and links to the code."
+  },
+  {
+    "objectID": "about.html#licences",
+    "href": "about.html#licences",
+    "title": "About and methods",
+    "section": "Licences",
+    "text": "Licences\n\nOur charts and text: CC BY 4.0. Reuse them freely with credit to “SA in Numbers”.\nOur code: MIT licence.\nSource data: remains under its publisher’s terms. Check the source named on each chart before reusing raw data."
+  },
+  {
+    "objectID": "about.html#contact",
+    "href": "about.html#contact",
+    "title": "About and methods",
+    "section": "Contact",
+    "text": "Contact\nCorrections and data suggestions: open an issue on the GitHub repository."
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html",
+    "href": "trackers/el-nino-2026/index.html",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "",
+    "text": "Latest data: rain to 15 November 2026 (preliminary from 1 November 2026); temperature to 18 November 2026. Season 2026/27 of the October–April summer rainfall season."
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#rain",
+    "href": "trackers/el-nino-2026/index.html#rain",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "Rain",
+    "text": "Rain\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteEach region’s rain, day by day\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteThe whole season so far, and how 1997/98 and 2015/16 ended\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWestern Cape. Most of its rain falls from April to September, so it is not in the summer rain figures. Its 2026 winter (1 April to 30 September 2026) brought 429.8 mm, 120% of normal."
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#heat",
+    "href": "trackers/el-nino-2026/index.html#heat",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "Heat",
+    "text": "Heat"
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#how-strong-is-this-el-niño",
+    "href": "trackers/el-nino-2026/index.html#how-strong-is-this-el-niño",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "How strong is this El Niño?",
+    "text": "How strong is this El Niño?"
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#dams",
+    "href": "trackers/el-nino-2026/index.html#dams",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "Dams",
+    "text": "Dams"
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#what-the-data-cant-tell-us",
+    "href": "trackers/el-nino-2026/index.html#what-the-data-cant-tell-us",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "What the data can’t tell us",
+    "text": "What the data can’t tell us\n\n\nEl Niño raises the odds of a dry, hot summer; it does not guarantee one. The very strong 1997/98 event brought near-normal rain to much of the summer rainfall region, while 2015/16 brought widespread drought. Both are shown above for that reason.\nRainfall is estimated from satellites and rain gauges, not read from every gauge. CHIRPS blends satellite estimates with station records on a 5 km grid. It is good at comparing this season with its own past, and weaker for exact local totals, especially for single thunderstorms.\nThe latest weeks are preliminary. Preliminary CHIRPS uses fewer gauges; final values replace them about three weeks after each month ends, so recent figures can change.\nHeat figures are modelled. NASA POWER (about 50 km) fills recent weeks with a near-real-time model and replaces them every few months.\nEach region is an index of 5 to 12 sites, not every farm. Rain falls patchily in summer, and one storm can make a district wetter than its region.\nRecent El Niño index values are provisional and can be revised for up to two months.\nDam totals cover only the dams in the DWS weekly report, weighted by their capacity."
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#regions-and-method",
+    "href": "trackers/el-nino-2026/index.html#regions-and-method",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "Regions and method",
+    "text": "Regions and method\nSites are grouped into regions whose seasonal rain rises and falls together. Each region’s figures are the average of its sites.\n\n\n\n\n\n\n\n\n\n\n\n\nRegion\nCovers\nSeason\nSites\nSites move together (r)\n\n\n\n\nNorth West & Free State\nNorth West; Free State (except the Vrede area)\n1 Oct to 30 Apr\nMahikeng, Lichtenburg, Vryburg, Wolmaransstad, Bothaville, Hoopstad, Welkom, Bultfontein, Bloemfontein, Kroonstad, Frankfort, Bethlehem\n0.77\n\n\nHighveld\nGauteng; Mpumalanga Highveld; Vrede area\n1 Oct to 30 Apr\nJohannesburg, Bronkhorstspruit, Middelburg, Bethal, Ermelo, Standerton, Vrede\n0.74\n\n\nLimpopo & Lowveld\nLimpopo; Mpumalanga Lowveld\n1 Oct to 30 Apr\nPolokwane, Mokopane, Modimolle, Lephalale, Tzaneen, Thohoyandou, Groblersdal, Mbombela\n0.72\n\n\nKwaZulu-Natal interior\nKZN Midlands; northern KZN\n1 Oct to 30 Apr\nPietermaritzburg, Estcourt, Newcastle, Vryheid, Greytown\n0.72\n\n\nEastern Cape & East Griqualand\nFormer Transkei; Komani (Queenstown) area; north-eastern Eastern Cape highlands; Kokstad\n1 Oct to 30 Apr\nKokstad, Maclear, Mthatha, Butterworth, Komani, Dutywa, Ngcobo, Lusikisiki\n0.74\n\n\nWestern Cape\nSwartland; Breede valley; Overberg\n1 Apr to 30 Sep\nMalmesbury, Piketberg, Worcester, Caledon, Bredasdorp\n0.67\n\n\n\n\n\n\nSeason: 1 October to 30 April for the summer-rainfall regions; 1 April to 30 September for the Western Cape. Normal: the 30 seasons starting 1991 to 2020.\nRain: CHIRPS v3 5-day totals (final where available, otherwise preliminary), the mean of a 0.25° window around each of the region’s sites, summed from the start of the season. Western Cape winter rain uses CHIRPS monthly totals. Until 21 November 2026 the tracker used NASA POWER rain; a check against CHIRPS showed its near-real-time rain missed early-November storms, so we switched.\nHeat: daily maximum temperature (T2M_MAX) from NASA POWER.\nSummer rain index: each summer region’s rain so far as a share of its normal full-season total, averaged with each region counted equally, so the wet east does not swamp the dry west.\nHot day: daily maximum above the site’s own 90th percentile for that time of year (1991–2020, ±7-day window). By construction, a normal season has about one hot day in ten. Counted over 1 October to 30 April in every region, including the Western Cape.\nRanks compare the same dates in every season since 1981/82, the start of the NASA POWER record.\nDo the regions hold together? For each pair of sites we correlate their seasonal rain totals since 1981 (Spearman’s r). Sites should move more with their own region than with any other, and a blind cluster analysis should find the same groups. The check is rerun with every change to the site list (tests/check_regions.R).\nEl Niño strength: NOAA’s Relative Oceanic Niño Index (RONI). An event is five or more overlapping three-month seasons at +0.5 °C or above.\nDams: DWS Weekly State of Reservoirs, % full weighted by full supply capacity.\n\nDownload the data: summer rain index · rain by region · normal range by region · heat by region · sites · regions · El Niño events · RONI · dams · dam history · summary\nCode: every number on this page is produced by update_el_nino.R in the project’s GitHub repository."
+  },
+  {
+    "objectID": "trackers/el-nino-2026/index.html#update-log",
+    "href": "trackers/el-nino-2026/index.html#update-log",
+    "title": "El Niño summer tracker 2026/27",
+    "section": "Update log",
+    "text": "Update log\n\n2026-11-15: latest weekly update.\n21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).\n21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS “Total” rows were counted as dams; % full figures were not affected)."
+  }
+]
