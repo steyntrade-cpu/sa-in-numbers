@@ -1,0 +1,19 @@
+---
+title: "SA in Numbers"
+subtitle: "South African data, with the uncertainty shown. Open data, open code."
+toc: false
+---
+
+## Live trackers
+
+**[El Niño summer tracker 2026/27](trackers/el-nino-2026/index.qmd):** rain, heat and dam levels through a very strong El Niño summer, updated every Monday.
+
+**[South Africa's temperature, day by day](trackers/sa-temperature/index.qmd):** every day of the year compared with every year since 1981, updated every Monday.
+
+## How we work
+
+- **Numbers first.** Short text, clear charts, no opinions on policy.
+- **Uncertainty shown.** Estimates come with ranges, and every story says what the data can't tell us.
+- **Open.** Every chart links to its data and the code that made it.
+
+[About and methods](about.qmd)

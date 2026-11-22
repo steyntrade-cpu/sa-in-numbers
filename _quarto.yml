@@ -1,0 +1,46 @@
+project:
+  type: website
+  output-dir: _site
+  execute-dir: project
+  resources:
+    - "data/processed/*.csv"
+    - "data/processed/*.json"
+    - "data/archive/*.csv"
+
+website:
+  title: "SA in Numbers"
+  description: "South African data, with the uncertainty shown. Open data, open code."
+  site-url: "https://steyntrade-cpu.github.io/sa-in-numbers/"   # edit after creating the repo
+  repo-url: "https://github.com/steyntrade-cpu/sa-in-numbers"      # edit after creating the repo
+  repo-actions: [source, issue]
+  navbar:
+    left:
+      - text: "Trackers"
+        menu:
+          - text: "El Niño summer 2026/27"
+            href: trackers/el-nino-2026/index.qmd
+          - text: "South Africa's temperature"
+            href: trackers/sa-temperature/index.qmd
+      - text: "About & methods"
+        href: about.qmd
+    right:
+      - icon: github
+        href: "https://github.com/steyntrade-cpu/sa-in-numbers"
+  page-footer:
+    left: "Content CC BY 4.0 · Code MIT"
+    right: "SA in Numbers"
+
+format:
+  html:
+    theme: [cosmo, styles.scss]
+    toc: true
+    fig-width: 9.33
+    fig-height: 6
+    fig-dpi: 150
+    fig-format: png
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false   # trackers must re-run every week when the data changes

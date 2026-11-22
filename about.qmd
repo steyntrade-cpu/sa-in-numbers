@@ -1,0 +1,26 @@
+---
+title: "About and methods"
+---
+
+SA in Numbers publishes South African statistics as charts, short videos and open datasets. The aim is to show what the numbers say, how sure we can be, and what they can't tell us.
+
+## Principles
+
+1. **Official and reputable sources first.** Each chart names its source and the date the data was downloaded.
+2. **Modelled estimates are labelled.** Where we estimate, project or fill gaps, the chart says so and shows a range. Our estimates are never presented as official statistics.
+3. **No cherry-picking.** Comparison periods are chosen before a tracker starts and kept for its whole run.
+4. **Corrections are public.** Errors are fixed in place, with a dated note in the story's update log.
+
+## Methods
+
+Each story uses whatever method fits its data: simple summaries, regression, time-series models, or Bayesian models where data are sparse. Every story page describes its method and links to the code.
+
+## Licences
+
+- **Our charts and text:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Reuse them freely with credit to "SA in Numbers".
+- **Our code:** MIT licence.
+- **Source data:** remains under its publisher's terms. Check the source named on each chart before reusing raw data.
+
+## Contact
+
+Corrections and data suggestions: open an issue on the GitHub repository.

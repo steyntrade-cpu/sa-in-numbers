@@ -1,0 +1,224 @@
+---
+title: "El Niño summer tracker 2026/27"
+subtitle: "Rain, heat and dams across South Africa's farming regions through a very strong El Niño summer. Updated every Monday."
+---
+
+```{r setup}
+suppressPackageStartupMessages(library(ggplot2))
+for (f in c("R/theme_sain.R", "R/fetch_enso.R", "R/fetch_power.R", "R/fetch_dws.R",
+            "R/metrics_el_nino.R", "R/plots_el_nino.R")) source(f)
+
+rows_to_list <- function(df) lapply(split(df, seq_len(nrow(df))), as.list)
+s <- jsonlite::fromJSON("data/processed/summary.json")
+s$compare <- rows_to_list(s$compare)
+s$regions <- rows_to_list(s$regions)
+
+read <- function(f) readr::read_csv(f, show_col_types = FALSE)
+cum     <- read("data/processed/rain_cumulative_regions.csv")
+band    <- read("data/processed/rain_normal_band_regions_1991_2020.csv")
+sindex  <- read("data/processed/rain_summer_index_all_seasons.csv")
+events  <- read("data/processed/el_nino_events.csv")
+regions <- read("data/processed/regions.csv")
+sites   <- read("data/processed/sites.csv")
+dams_file <- "data/processed/dams_summary_latest.csv"
+dam_sum <- if (file.exists(dams_file)) read(dams_file) else NULL
+archive_file <- "data/archive/dams_weekly.csv"
+archive <- if (file.exists(archive_file)) read(archive_file) else NULL
+check_file <- "data/processed/region_check_regions.csv"
+check <- if (file.exists(check_file)) read(check_file) else NULL
+
+summer <- Filter(function(z) z$season_type == "summer", s$regions)
+driest <- summer[[which.min(vapply(summer, function(z) z$rain_pct_of_normal, 0))]]
+wc <- Filter(function(z) z$season_type == "winter", s$regions)
+```
+
+**Latest data:** rain to `r fmt_date(s$as_of)``r if (!is.null(s$rain_prelim_from) && !is.na(s$rain_prelim_from)) paste0(" (preliminary from ", fmt_date(s$rain_prelim_from), ")") else ""`; temperature to `r fmt_date(s$heat_as_of)`. Season `r s$season` of the October–April summer rainfall season.
+
+::: {.headline-grid}
+::: {.stat}
+::: {.value}
+`r s$rain_pct_of_normal`%
+:::
+::: {.label}
+of normal summer rain since 1 October
+:::
+::: {.context}
+`r length(summer)` summer-rainfall regions; `r ordinal(s$rain_rank_driest)` driest of `r s$n_seasons` seasons
+:::
+:::
+
+::: {.stat}
+::: {.value}
+`r driest$rain_pct_of_normal`%
+:::
+::: {.label}
+`r driest$region`, the driest region
+:::
+::: {.context}
+`r driest$rain_mm` mm vs `r driest$rain_normal_mm` mm median
+:::
+:::
+
+::: {.stat}
+::: {.value}
+`r s$heat_days`
+:::
+::: {.label}
+hot days so far
+:::
+::: {.context}
+normal: `r s$heat_days_normal`, to `r format(as.Date(s$heat_as_of), "%d %b")`
+:::
+:::
+
+::: {.stat}
+::: {.value}
+`r sprintf("%+.2f", s$roni_latest)`
+:::
+::: {.label}
+El Niño index (RONI, °C)
+:::
+::: {.context}
+`r s$roni_latest_season`; +2.0 or more = very strong
+:::
+:::
+
+```{r dam-stat, results='asis'}
+if (!is.null(s$dams_national_pct) && !is.na(s$dams_national_pct)) {
+  cat(sprintf('::: {.stat}\n::: {.value}\n%.0f%%\n:::\n::: {.label}\nnational dam storage\n:::\n::: {.context}\na year ago: %.0f%%\n:::\n:::\n',
+              s$dams_national_pct, s$dams_national_pct_last_year))
+}
+```
+:::
+
+## Rain
+
+```{r rain-sofar}
+#| fig-alt: "Summer rain so far, averaged over five regions, against the 1991-2020 normal range and the 1997/98 and 2015/16 El Nino seasons."
+plot_rain_summer(sindex, s, zoom = TRUE)
+```
+
+```{r rain-regions}
+#| fig-height: 5.5
+#| fig-alt: "Rain so far in each summer-rainfall region as a percentage of normal, with 2015/16 at the same date."
+plot_rain_regions(s)
+```
+
+::: {.callout-note collapse="true" title="Each region's rain, day by day"}
+```{r rain-panels}
+#| fig-height: 7
+plot_rain_region_panels(cum, band, s, regions, ncol = 3)
+```
+:::
+
+::: {.callout-note collapse="true" title="The whole season so far, and how 1997/98 and 2015/16 ended"}
+```{r rain-season}
+plot_rain_summer(sindex, s, zoom = FALSE)
+```
+:::
+
+```{r wc-rain, results='asis'}
+if (length(wc)) {
+  w <- wc[[1]]
+  wettest <- w$n_seasons - w$rain_rank_driest + 1
+  rank_txt <- if (w$rain_rank_driest <= 5) sprintf(": the %s driest of %d winters since 1981", ordinal(w$rain_rank_driest), w$n_seasons) else
+    if (wettest <= 5) sprintf(": the %s wettest of %d winters since 1981", ordinal(wettest), w$n_seasons) else ""
+  cat(sprintf(paste0("**Western Cape.** Most of its rain falls from April to September, so it is not in the summer ",
+                     "rain figures. Its %s winter (%s) brought %s mm, %d%% of normal%s."),
+              w$rain_season, w$rain_period, w$rain_mm, w$rain_pct_of_normal, rank_txt))
+}
+```
+
+## Heat
+
+```{r heat}
+#| fig-height: 4.5
+#| fig-alt: "Number of hot days so far this season compared with normal and with 1997/98 and 2015/16."
+plot_heat(s)
+```
+
+```{r heat-regions}
+#| fig-height: 5.5
+#| fig-alt: "Hot days so far in each region, with the normal and 2015/16 at the same date."
+plot_heat_regions(s)
+```
+
+## How strong is this El Niño?
+
+```{r strength}
+#| fig-height: 6.5
+#| fig-alt: "Peak strength of the largest El Nino events since 1950, with the current event highlighted."
+plot_roni_events(events)
+```
+
+## Dams
+
+```{r dams}
+#| fig-height: 7.5
+#| fig-alt: "Dam storage by drainage region this week, with the level a year ago."
+if (!is.null(dam_sum)) plot_dams(dam_sum)
+```
+
+```{r dam-history}
+if (!is.null(archive)) { p <- plot_dam_history(archive); if (!is.null(p)) p }
+```
+
+## What the data can't tell us
+
+::: {.cant-tell}
+- **El Niño raises the odds of a dry, hot summer; it does not guarantee one.** The very strong 1997/98 event brought near-normal rain to much of the summer rainfall region, while 2015/16 brought widespread drought. Both are shown above for that reason.
+- **Rainfall is estimated from satellites and rain gauges, not read from every gauge.** CHIRPS blends satellite estimates with station records on a 5 km grid. It is good at comparing this season with its own past, and weaker for exact local totals, especially for single thunderstorms.
+- **The latest weeks are preliminary.** Preliminary CHIRPS uses fewer gauges; final values replace them about three weeks after each month ends, so recent figures can change.
+- **Heat figures are modelled.** NASA POWER (about 50 km) fills recent weeks with a near-real-time model and replaces them every few months.
+- **Each region is an index of 5 to 12 sites, not every farm.** Rain falls patchily in summer, and one storm can make a district wetter than its region.
+- **Recent El Niño index values are provisional** and can be revised for up to two months.
+- **Dam totals cover only the dams in the DWS weekly report**, weighted by their capacity.
+:::
+
+## Regions and method
+
+Sites are grouped into regions whose seasonal rain rises and falls together. Each region's figures are the average of its sites.
+
+```{r region-table}
+reg_tab <- do.call(rbind, lapply(seq_len(nrow(regions)), function(i) {
+  r <- regions[i, ]
+  data.frame(Region = r$region, Covers = r$covers,
+             Season = if (r$season == "winter") "1 Apr to 30 Sep" else "1 Oct to 30 Apr",
+             Sites = paste(sites$site[sites$region_id == r$region_id], collapse = ", "))
+}))
+if (!is.null(check)) {
+  reg_tab$`Sites move together (r)` <- check$r_within[match(regions$region_id, check$region_id)]
+}
+knitr::kable(reg_tab)
+```
+
+- **Season:** 1 October to 30 April for the summer-rainfall regions; 1 April to 30 September for the Western Cape. Normal: the 30 seasons starting 1991 to 2020.
+- **Rain:** CHIRPS v3 5-day totals (final where available, otherwise preliminary), the mean of a 0.25° window around each of the region's [sites](../../data/processed/sites.csv), summed from the start of the season. Western Cape winter rain uses CHIRPS monthly totals. Until 21 November 2026 the tracker used NASA POWER rain; a check against CHIRPS showed its near-real-time rain missed early-November storms, so we switched.
+- **Heat:** daily maximum temperature (T2M_MAX) from NASA POWER.
+- **Summer rain index:** each summer region's rain so far as a share of its normal full-season total, averaged with each region counted equally, so the wet east does not swamp the dry west.
+- **Hot day:** daily maximum above the site's own 90th percentile for that time of year (1991–2020, ±7-day window). By construction, a normal season has about one hot day in ten. Counted over 1 October to 30 April in every region, including the Western Cape.
+- **Ranks** compare the same dates in every season since 1981/82, the start of the NASA POWER record.
+- **Do the regions hold together?** For each pair of sites we correlate their seasonal rain totals since 1981 (Spearman's r). Sites should move more with their own region than with any other, and a blind cluster analysis should find the same groups. The check is rerun with every change to the site list (`tests/check_regions.R`).
+- **El Niño strength:** NOAA's Relative Oceanic Niño Index (RONI). An event is five or more overlapping three-month seasons at +0.5 °C or above.
+- **Dams:** DWS Weekly State of Reservoirs, % full weighted by full supply capacity.
+
+**Download the data:**
+[summer rain index](../../data/processed/rain_summer_index_all_seasons.csv) ·
+[rain by region](../../data/processed/rain_cumulative_regions.csv) ·
+[normal range by region](../../data/processed/rain_normal_band_regions_1991_2020.csv) ·
+[heat by region](../../data/processed/heat_days_regions.csv) ·
+[sites](../../data/processed/sites.csv) ·
+[regions](../../data/processed/regions.csv) ·
+[El Niño events](../../data/processed/el_nino_events.csv) ·
+[RONI](../../data/processed/roni.csv) ·
+[dams](../../data/processed/dams_summary_latest.csv) ·
+[dam history](../../data/archive/dams_weekly.csv) ·
+[summary](../../data/processed/summary.json)
+
+Code: every number on this page is produced by `update_el_nino.R` in the project's GitHub repository.
+
+## Update log
+
+- `r s$as_of`: latest weekly update.
+- 21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).
+- 21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS "Total" rows were counted as dams; % full figures were not affected).

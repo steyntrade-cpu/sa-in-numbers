@@ -1,0 +1,15 @@
+# raw downloads are re-fetched every run
+data/raw/
+# generated
+_site/
+.quarto/
+_freeze/
+outputs/
+*_files/
+/.quarto/
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+**/*.quarto_ipynb
