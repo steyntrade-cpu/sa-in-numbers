@@ -14,32 +14,18 @@
     "text": "El Niño summer tracker 2026/27: rain, heat and dam levels through a very strong El Niño summer, updated every Monday.\nSouth Africa’s temperature, day by day: every day of the year compared with every year since 1981, updated every Monday."
   },
   {
+    "objectID": "index.html#stories",
+    "href": "index.html#stories",
+    "title": "SA in Numbers",
+    "section": "Stories",
+    "text": "Stories\nSnapshots with a date on them: one question, a few charts, and what the data can’t tell us. All stories"
+  },
+  {
     "objectID": "index.html#how-we-work",
     "href": "index.html#how-we-work",
     "title": "SA in Numbers",
     "section": "How we work",
     "text": "How we work\n\nNumbers first. Short text, clear charts, no opinions on policy.\nUncertainty shown. Estimates come with ranges, and every story says what the data can’t tell us.\nOpen. Every chart links to its data and the code that made it.\n\nAbout and methods"
-  },
-  {
-    "objectID": "trackers/sa-temperature/index.html",
-    "href": "trackers/sa-temperature/index.html",
-    "title": "South Africa’s temperature, day by day",
-    "section": "",
-    "text": "Latest data: 19 November 2026."
-  },
-  {
-    "objectID": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
-    "href": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
-    "title": "South Africa’s temperature, day by day",
-    "section": "What the data can’t tell us",
-    "text": "What the data can’t tell us\n\n\nThese are modelled temperatures, not weather-station readings. NASA POWER (MERRA-2) combines satellite data, weather observations and a weather model on a grid of roughly 50 km. It suits comparing years with each other; local station values will differ.\nThe latest weeks are provisional. NASA fills recent weeks with a near-real-time model and replaces them with its long-term record every few months, so recent values can shift a little.\nOne national number hides big differences. The Lowveld, the Karoo and the coast can have very different days; this is the average over the whole country.\nA year so far is not a full year. Ranks for the current year compare the same dates in every year, and can change as the year goes on."
-  },
-  {
-    "objectID": "trackers/sa-temperature/index.html#method",
-    "href": "trackers/sa-temperature/index.html#method",
-    "title": "South Africa’s temperature, day by day",
-    "section": "Method",
-    "text": "Method\n\nTemperature: daily mean air temperature at 2 m (T2M) from NASA POWER at 114 points one degree apart covering South Africa (Lesotho and Eswatini excluded), averaged with weights for grid-cell area (cosine of latitude).\nLines: a 7-day average (each day and the six before it), so the lines show weather spells rather than single days.\nAverage: the 1991–2020 mean for each day of the year (WMO standard period).\nRanks and anomalies: for the current year, 1 January to the latest date, compared with the same dates in every other year. Full-year values use complete calendar years.\nTrend: a straight line fitted to the yearly averages of complete years (ordinary least squares), with its 95% confidence interval. Year-to-year swings are large, so the trend explains only part of the variation (r² = 0.19).\nThis year’s estimate: the 1991–2020 yearly average plus this year’s difference from normal so far. An average of January to November alone would leave out December and look too cool.\nWarming since the 1980s: average of the last ten full years minus the average of 1981–1990 (+0.6°C).\n\nDownload the data: daily national temperature · yearly averages · summary · grid points\nCode: every number on this page is produced by update_sa_temperature.R in the project’s GitHub repository."
   },
   {
     "objectID": "trackers/el-nino-2026/index.html",
@@ -60,7 +46,7 @@
     "href": "trackers/el-nino-2026/index.html#heat",
     "title": "El Niño summer tracker 2026/27",
     "section": "Heat",
-    "text": "Heat"
+    "text": "Heat\n\n\n\n\n\n\nWarningHot-day counts are being checked\n\n\n\nThe hot days use NASA POWER’s daily maximum temperature. For recent months NASA fills these from a different model (GEOS-IT) than the 1991–2020 thresholds (MERRA-2). For mean temperature, ERA5 shows 1 October to 15 November 2026 about 1.2 °C cooler than NASA POWER. If maximum temperatures are affected the same way, the counts below are too high. A check against ERA5 is in progress. (Added 22 November 2026.)"
   },
   {
     "objectID": "trackers/el-nino-2026/index.html#how-strong-is-this-el-niño",
@@ -95,7 +81,7 @@
     "href": "trackers/el-nino-2026/index.html#update-log",
     "title": "El Niño summer tracker 2026/27",
     "section": "Update log",
-    "text": "Update log\n\n2026-11-15: latest weekly update.\n21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).\n21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS “Total” rows were counted as dams; % full figures were not affected)."
+    "text": "Update log\n\n2026-11-15: latest weekly update.\n22 November 2026: caution added on hot-day counts (NASA POWER’s recent data run warm against ERA5).\n21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).\n21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS “Total” rows were counted as dams; % full figures were not affected)."
   },
   {
     "objectID": "about.html",
@@ -131,5 +117,33 @@
     "title": "About and methods",
     "section": "Contact",
     "text": "Contact\nCorrections and data suggestions: open an issue on the GitHub repository."
+  },
+  {
+    "objectID": "trackers/sa-temperature/index.html",
+    "href": "trackers/sa-temperature/index.html",
+    "title": "South Africa’s temperature, day by day",
+    "section": "",
+    "text": "Latest data: 20 November 2026."
+  },
+  {
+    "objectID": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
+    "href": "trackers/sa-temperature/index.html#what-the-data-cant-tell-us",
+    "title": "South Africa’s temperature, day by day",
+    "section": "What the data can’t tell us",
+    "text": "What the data can’t tell us\n\n\nThese are modelled temperatures, not weather-station readings. NASA POWER (MERRA-2) combines satellite data, weather observations and a weather model on a grid of roughly 50 km. It suits comparing years with each other; local station values will differ.\nThe latest weeks are provisional. NASA fills recent weeks with a near-real-time model and replaces them with its long-term record every few months, so recent values can shift a little.\nOne national number hides big differences. The Lowveld, the Karoo and the coast can have very different days; this is the average over the whole country.\nA year so far is not a full year. Ranks for the current year compare the same dates in every year, and can change as the year goes on."
+  },
+  {
+    "objectID": "trackers/sa-temperature/index.html#method",
+    "href": "trackers/sa-temperature/index.html#method",
+    "title": "South Africa’s temperature, day by day",
+    "section": "Method",
+    "text": "Method\n\nTemperature: daily mean air temperature at 2 m (T2M) from NASA POWER at 114 points one degree apart covering South Africa (Lesotho and Eswatini excluded), averaged with weights for grid-cell area (cosine of latitude).\nLines: a 7-day average (each day and the six before it), so the lines show weather spells rather than single days.\nAverage: the 1991–2020 mean for each day of the year (WMO standard period).\nRanks and anomalies: for the current year, 1 January to the latest date, compared with the same dates in every other year. Full-year values use complete calendar years.\nTrend: a straight line fitted to the yearly averages of complete years (ordinary least squares), with its 95% confidence interval. Year-to-year swings are large, so the trend explains only part of the variation (r² = 0.19).\nThis year’s estimate: the 1991–2020 yearly average plus this year’s difference from normal so far. An average of January to November alone would leave out December and look too cool.\nWarming since the 1980s: average of the last ten full years minus the average of 1981–1990 (+0.6°C).\n\nDownload the data: daily national temperature · yearly averages · summary · grid points\nCode: every number on this page is produced by update_sa_temperature.R in the project’s GitHub repository."
+  },
+  {
+    "objectID": "stories/index.html",
+    "href": "stories/index.html",
+    "title": "Stories",
+    "section": "",
+    "text": "The first stories are on their way."
   }
 ]
