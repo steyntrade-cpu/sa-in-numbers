@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1878506bb35e201df776c326a13fe890.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-78e9551bc153391a0f8606912d36f2f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -174,39 +174,39 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><strong>Latest data:</strong> rain to 15 November 2026 (preliminary from 1 November 2026); temperature to 19 November 2026. Season 2026/27 of the October–April summer rainfall season.</p>
+<p><strong>Latest data:</strong> rain to 20 November 2026 (preliminary from 1 November 2026); temperature to 18 November 2026. Season 2026/27 of the October–April summer rainfall season.</p>
 <div class="headline-grid">
 <div class="stat">
 <div class="value">
-<p>71%</p>
+<p>64%</p>
 </div>
 <div class="label">
 <p>of normal summer rain since 1 October</p>
 </div>
 <div class="context">
-<p>5 summer-rainfall regions; 10th driest of 46 seasons</p>
+<p>5 summer-rainfall regions; 7th driest of 46 seasons</p>
 </div>
 </div>
 <div class="stat">
 <div class="value">
-<p>46%</p>
+<p>45%</p>
 </div>
 <div class="label">
 <p>North West &amp; Free State, the driest region</p>
 </div>
 <div class="context">
-<p>41.1 mm vs 90.2 mm median</p>
+<p>43.3 mm vs 95.9 mm median</p>
 </div>
 </div>
 <div class="stat">
 <div class="value">
-<p>10.9</p>
+<p>8.8</p>
 </div>
 <div class="label">
 <p>hot days so far</p>
 </div>
 <div class="context">
-<p>normal: 5.1, to 19 Nov</p>
+<p>normal: 5, to 18 Nov</p>
 </div>
 </div>
 <div class="stat">
@@ -304,19 +304,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="heat" class="level2">
 <h2 class="anchored" data-anchor-id="heat">Heat</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Hot-day counts are being checked
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The hot days use NASA POWER’s daily maximum temperature. For recent months NASA fills these from a different model (GEOS-IT) than the 1991–2020 thresholds (MERRA-2). For mean temperature, ERA5 shows 1 October to 15 November 2026 about 1.2 °C cooler than NASA POWER. If maximum temperatures are affected the same way, the counts below are too high. A check against ERA5 is in progress. (Added 22 November 2026.)</p>
-</div>
-</div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -367,7 +354,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>El Niño raises the odds of a dry, hot summer; it does not guarantee one.</strong> The very strong 1997/98 event brought near-normal rain to much of the summer rainfall region, while 2015/16 brought widespread drought. Both are shown above for that reason.</li>
 <li><strong>Rainfall is estimated from satellites and rain gauges, not read from every gauge.</strong> CHIRPS blends satellite estimates with station records on a 5 km grid. It is good at comparing this season with its own past, and weaker for exact local totals, especially for single thunderstorms.</li>
 <li><strong>The latest weeks are preliminary.</strong> Preliminary CHIRPS uses fewer gauges; final values replace them about three weeks after each month ends, so recent figures can change.</li>
-<li><strong>Heat figures are modelled.</strong> NASA POWER (about 50 km) fills recent weeks with a near-real-time model and replaces them every few months.</li>
+<li><strong>Heat figures are modelled.</strong> ERA5 is a reanalysis on a grid of about 25 km, not a thermometer at each site; its daily maximum comes from hourly values, so it sits a little below a station’s true peak. Thresholds and counts both use ERA5, so seasons are compared like with like. The latest weeks are preliminary (ERA5T).</li>
 <li><strong>Each region is an index of 5 to 12 sites, not every farm.</strong> Rain falls patchily in summer, and one storm can make a district wetter than its region.</li>
 <li><strong>Recent El Niño index values are provisional</strong> and can be revised for up to two months.</li>
 <li><strong>Dam totals cover only the dams in the DWS weekly report</strong>, weighted by their capacity.</li>
@@ -446,10 +433,10 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Season:</strong> 1 October to 30 April for the summer-rainfall regions; 1 April to 30 September for the Western Cape. Normal: the 30 seasons starting 1991 to 2020.</li>
 <li><strong>Rain:</strong> CHIRPS v3 5-day totals (final where available, otherwise preliminary), the mean of a 0.25° window around each of the region’s <a href="../../data/processed/sites.csv">sites</a>, summed from the start of the season. Western Cape winter rain uses CHIRPS monthly totals. Until 21 November 2026 the tracker used NASA POWER rain; a check against CHIRPS showed its near-real-time rain missed early-November storms, so we switched.</li>
-<li><strong>Heat:</strong> daily maximum temperature (T2M_MAX) from NASA POWER.</li>
+<li><strong>Heat:</strong> daily maximum air temperature at 2 m from <a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels">ECMWF ERA5</a> hourly data, read from ECMWF’s analysis-ready (ARCO) store (Copernicus Climate Data Store), the highest hourly value of each South African day (midnight to midnight), at the grid point (0.25°) nearest each site. Until 22 November 2026 the tracker used NASA POWER, whose latest months come from a different model and read too warm against ERA5.</li>
 <li><strong>Summer rain index:</strong> each summer region’s rain so far as a share of its normal full-season total, averaged with each region counted equally, so the wet east does not swamp the dry west.</li>
 <li><strong>Hot day:</strong> daily maximum above the site’s own 90th percentile for that time of year (1991–2020, ±7-day window). By construction, a normal season has about one hot day in ten. Counted over 1 October to 30 April in every region, including the Western Cape.</li>
-<li><strong>Ranks</strong> compare the same dates in every season since 1981/82, the start of the NASA POWER record.</li>
+<li><strong>Ranks</strong> compare the same dates in every season since 1981/82, the start of the CHIRPS record.</li>
 <li><strong>Do the regions hold together?</strong> For each pair of sites we correlate their seasonal rain totals since 1981 (Spearman’s r). Sites should move more with their own region than with any other, and a blind cluster analysis should find the same groups. The check is rerun with every change to the site list (<code>tests/check_regions.R</code>).</li>
 <li><strong>El Niño strength:</strong> NOAA’s Relative Oceanic Niño Index (RONI). An event is five or more overlapping three-month seasons at +0.5 °C or above.</li>
 <li><strong>Dams:</strong> DWS Weekly State of Reservoirs, % full weighted by full supply capacity.</li>
@@ -460,11 +447,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="update-log" class="level2">
 <h2 class="anchored" data-anchor-id="update-log">Update log</h2>
 <ul>
-<li>2026-11-15: latest weekly update.</li>
-<li>22 November 2026: caution added on hot-day counts (NASA POWER’s recent data run warm against ERA5).</li>
+<li>2026-11-20: latest weekly update.</li>
+<li>22 November 2026: hot days now from ECMWF ERA5 instead of NASA POWER (see method); NASA POWER’s latest months ran warm against ERA5, which inflated the counts.</li>
 <li>21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).</li>
 <li>21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS “Total” rows were counted as dams; % full figures were not affected).</li>
 </ul>
+<p><em>Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use made of the Copernicus information or data it contains.</em></p>
 
 
 </section>
