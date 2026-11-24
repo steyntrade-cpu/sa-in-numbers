@@ -1,0 +1,8 @@
+# Python packages for scripts/era5_arco.py (ERA5 from ECMWF's ARCO Zarr store)
+xarray>=2024.6
+zarr>=2.18
+fsspec>=2024.6
+aiohttp>=3.9
+requests>=2.31
+numpy>=1.26
+pandas>=2.1

@@ -13,8 +13,9 @@ SERIES_COLOURS <- function(cur_label) {
                   c(cur_label, season_label(COMPARE_SEASONS)))
 }
 
-POWER_SOURCE <- "NASA POWER daily (MERRA-2; latest weeks GEOS-IT near-real-time)"
-POWER_NOTE <- "Modelled gridded data (~50 km), not weather-station records. Latest weeks are provisional."
+# Heat charts: ERA5 daily maximum (NASA POWER until 22 Nov 2026; names kept)
+POWER_SOURCE <- ERA5_SOURCE
+POWER_NOTE <- ERA5_NOTE
 CHIRPS_SOURCE <- "CHIRPS v3 (Climate Hazards Center, UC Santa Barbara)"
 CHIRPS_NOTE <- "Satellite estimates blended with rain gauges, ~5 km, in 5-day totals. Latest weeks preliminary."
 

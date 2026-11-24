@@ -28,8 +28,11 @@ local({
 # Offline: Rscript update_x.R --offline, or options(sain.offline = TRUE) before source()
 OFFLINE <- "--offline" %in% commandArgs(trailingOnly = TRUE) || isTRUE(getOption("sain.offline"))
 suppressPackageStartupMessages(library(ggplot2))
-for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/metrics_el_nino.R", "R/sa_temperature.R")) source(f)
+for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/fetch_era5.R", "R/metrics_el_nino.R",
+            "R/sa_temperature.R")) source(f)
 dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+# The NASA POWER national series (used until 22 Nov 2026) is replaced by ERA5
+unlink("data/sa_temperature/national_daily_history.csv")
 
 d <- sa_temperature_series(offline = OFFLINE)
 m <- sa_temperature_metrics(d)

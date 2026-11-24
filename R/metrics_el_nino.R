@@ -10,7 +10,7 @@
 # Region index = mean of its sites, day by day (sites in a region share a
 # rainfall regime, so averaging millimetres is reasonable).
 # Rain comes from CHIRPS v3 pentads (spread evenly over their 5 days); heat
-# from NASA POWER daily maximum temperature.
+# from ERA5 daily maximum temperature (NASA POWER until 22 Nov 2026).
 # Summer-rainfall index = mean over the five summer regions of "rain so far as a
 # % of the region's normal full-season total", so each region counts equally
 # and the wet east does not swamp the dry west.
@@ -156,7 +156,7 @@ season_summary <- function(cum, sindex, heat, heat_nat, regions, sites, roni, ro
   si_others <- si$pct_season[si$season != cur]
   pct_of_normal_at <- function(s) round(100 * si$pct_season[si$season == s] / si_norm)
 
-  # Heat runs to the latest NASA POWER day, which can differ from the rain date
+  # Heat runs to the latest ERA5 day, which can differ from the rain date
   hday <- max(heat_nat$season_day[heat_nat$season == cur])
   hn <- heat_nat[heat_nat$season_day == hday, ]
   h_cur <- hn$cum_hot_days[hn$season == cur]

@@ -1,61 +1,28 @@
 # ---------------------------------------------------------------------------
 # South Africa's daily temperature, every year since 1981
 #
-# Air temperature at 2 m (T2M, daily mean) from NASA POWER at 114 points one
-# degree apart covering South Africa (config/sa_grid.csv; Lesotho and
-# Eswatini excluded). The national value is the area-weighted (cos latitude)
-# mean of the points. Modelled data (MERRA-2; latest weeks GEOS-IT
-# near-real-time), not weather-station records.
+# Daily mean air temperature at 2 m from ECMWF ERA5 (Copernicus Climate Data
+# Store), averaged over all 1,810 ERA5 grid cells (0.25 degrees, ~25 km) inside
+# South Africa, weighted by cos(latitude) so each cell counts by its area
+# (config/era5_sa_cells.csv; Lesotho and Eswatini excluded). Days run midnight
+# to midnight South African time. Reanalysis data, not weather-station records;
+# the latest ~2-3 months are ERA5T (preliminary).
 #
-# The 1981 to two-years-ago record is downloaded once a year and kept as a
-# national daily series in data/sa_temperature/ (committed); each run only
-# re-downloads the last two years, which picks up NASA's revisions.
+# Until 22 November 2026 this used NASA POWER at 114 points; NASA POWER's
+# latest months come from a different model (GEOS-IT) and read about 1.2 C too
+# warm against ERA5 for October-November 2026 (tests/check_era5_temperature.R).
+# Downloading and caching: R/fetch_era5.R.
 # ---------------------------------------------------------------------------
 
-SA_GRID_FILE <- "config/sa_grid.csv"
-SA_TEMP_HISTORY <- "data/sa_temperature/national_daily_history.csv"
+SA_GRID_FILE <- "config/sa_grid.csv"          # the old 1-degree points (used by the ERA5 check)
 SA_TEMP_FIRST_YEAR <- 1981
 
 read_sa_grid <- function(path = SA_GRID_FILE) utils::read.csv(path, stringsAsFactors = FALSE)
 
-# National daily mean from the grid points for start..end (YYYYMMDD)
-sa_national_daily <- function(grid, start, end, raw_dir, offline = FALSE, min_share = 0.95) {
-  rows <- lapply(seq_len(nrow(grid)), function(i) {
-    if (i %% 20 == 1) message(sprintf("NASA POWER temperature: point %d of %d", i, nrow(grid)))
-    fetch_power_site(grid$point_id[i], grid$lat[i], grid$lon[i], start = start, end = end,
-                     pars = "T2M", raw_dir = raw_dir, offline = offline)
-  })
-  d <- do.call(rbind, rows[!vapply(rows, is.null, logical(1))])
-  if (is.null(d)) stop("No NASA POWER temperature data in ", raw_dir)
-  d <- d[!is.na(d$T2M), ]
-  d$weight <- grid$weight[match(d$site, grid$point_id)]
-  n <- table(d$date)
-  ok <- as.Date(names(n)[n >= min_share * nrow(grid)])
-  d <- d[d$date %in% ok, ]
-  out <- stats::aggregate(cbind(wt = weight * T2M, w = weight) ~ date, data = d, FUN = sum)
-  data.frame(date = out$date, t_c = round(out$wt / out$w, 3),
-             n_points = as.integer(n[as.character(out$date)]))
-}
-
-# The full national daily series: stored history + freshly downloaded recent years
-sa_temperature_series <- function(offline = FALSE, today = Sys.Date()) {
-  grid <- read_sa_grid()
-  this_year <- as.integer(format(today, "%Y"))
-  cut <- this_year - 2   # history runs to the end of this year
-  hist <- if (file.exists(SA_TEMP_HISTORY)) utils::read.csv(SA_TEMP_HISTORY) else NULL
-  if (!is.null(hist)) hist$date <- as.Date(hist$date)
-  if (is.null(hist) || max(as.integer(format(hist$date, "%Y"))) < cut) {
-    message(sprintf("Building the %d-%d national temperature record (once a year; 15-30 minutes)",
-                    SA_TEMP_FIRST_YEAR, cut))
-    hist <- sa_national_daily(grid, sprintf("%d0101", SA_TEMP_FIRST_YEAR), sprintf("%d1231", cut),
-                              "data/raw/power_grid/history", offline)
-    hist <- hist[as.integer(format(hist$date, "%Y")) <= cut, ]
-    dir.create(dirname(SA_TEMP_HISTORY), showWarnings = FALSE, recursive = TRUE)
-    utils::write.csv(hist, SA_TEMP_HISTORY, row.names = FALSE)
-  }
-  recent <- sa_national_daily(grid, sprintf("%d0101", cut + 1), format(today, "%Y%m%d"),
-                              "data/raw/power_grid/recent", offline)
-  d <- rbind(hist[hist$date < as.Date(sprintf("%d-01-01", cut + 1)), ], recent)
+# The national daily series (date, t_c, n_points) from ERA5
+sa_temperature_series <- function(offline = FALSE, today = Sys.Date(), sites = read_sites()) {
+  d <- era5_update(sites, offline = offline, today = today)$national
+  d <- d[d$date >= as.Date(sprintf("%d-01-01", SA_TEMP_FIRST_YEAR)), ]
   d <- d[order(d$date), ]
   gaps <- which(diff(d$date) > 1)
   if (length(gaps)) warning("Gaps in the national temperature series after: ",
@@ -120,12 +87,13 @@ sa_temperature_metrics <- function(d) {
       trend_years = sprintf("%d-%d", min(annual$year), max(annual$year)),
       year_estimate_c = round(ann_norm + ytd_cur - ytd_norm, 2),
       warming_periods = sprintf("%d-%d vs %d-%d", min(last10), max(last10), min(first10), max(first10)),
-      n_points = nrow(read_sa_grid())
+      n_points = as.integer(stats::median(d$n_points, na.rm = TRUE))
     )
   )
 }
 
-TEMP_SOURCE <- "NASA POWER daily (MERRA-2; latest weeks GEOS-IT near-real-time)"
+TEMP_SOURCE <- ERA5_SOURCE
+TEMP_NOTE <- "Average over South Africa's land area (%d grid cells of ~25 km). Reanalysis, not weather stations; latest weeks preliminary."
 fmt_c <- function(x) ifelse(abs(x) < 0.05, "0.0\u00b0C", sprintf("%+.1f\u00b0C", x))
 
 plot_sa_temp_daily <- function(m) {
@@ -155,8 +123,7 @@ plot_sa_temp_daily <- function(m) {
                                 "%d to %s: %s compared with the 1991-2020 average for the same dates."),
                          s$first_year, s$year, fmt_date(s$as_of), fmt_c(s$ytd_anomaly_c)),
       x = NULL, y = NULL,
-      caption = sain_caption(TEMP_SOURCE, sprintf(
-        "Average of %d points one degree apart across South Africa. Modelled data, not weather stations.", s$n_points))
+      caption = sain_caption(TEMP_SOURCE, sprintf(TEMP_NOTE, s$n_points))
     ) +
     theme_sain() +
     guides(colour = guide_legend(nrow = 2, override.aes = list(linewidth = 1.3, alpha = 1)))
@@ -181,8 +148,7 @@ plot_sa_temp_years <- function(m) {
                          sub(" vs ", " average minus ", s$warming_periods), s$year,
                          format(as.Date(s$as_of), "%d %b")),
       x = NULL, y = NULL,
-      caption = sain_caption(TEMP_SOURCE, sprintf(
-        "Average of %d points one degree apart across South Africa. Modelled data, not weather stations.", s$n_points))
+      caption = sain_caption(TEMP_SOURCE, sprintf(TEMP_NOTE, s$n_points))
     ) +
     theme_sain() +
     coord_cartesian(clip = "off")
@@ -224,8 +190,7 @@ plot_sa_temp_trend <- function(m) {
                                 "confidence interval\n(%.2f to %.2f°C a decade). %d: estimate from 1 January to %s."),
                          s$first_year, ci[1], ci[2], s$year, format(as.Date(s$as_of), "%d %B")),
       x = NULL, y = NULL,
-      caption = sain_caption(TEMP_SOURCE, sprintf(
-        "Average of %d points one degree apart across South Africa. Modelled data, not weather stations.", s$n_points))
+      caption = sain_caption(TEMP_SOURCE, sprintf(TEMP_NOTE, s$n_points))
     ) +
     theme_sain()
 }

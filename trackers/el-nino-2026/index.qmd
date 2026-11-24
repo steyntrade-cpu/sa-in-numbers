@@ -5,7 +5,7 @@ subtitle: "Rain, heat and dams across South Africa's farming regions through a v
 
 ```{r setup}
 suppressPackageStartupMessages(library(ggplot2))
-for (f in c("R/theme_sain.R", "R/fetch_enso.R", "R/fetch_power.R", "R/fetch_dws.R",
+for (f in c("R/theme_sain.R", "R/fetch_enso.R", "R/fetch_power.R", "R/fetch_era5.R", "R/fetch_dws.R",
             "R/metrics_el_nino.R", "R/plots_el_nino.R")) source(f)
 
 rows_to_list <- function(df) lapply(split(df, seq_len(nrow(df))), as.list)
@@ -131,10 +131,6 @@ if (length(wc)) {
 
 ## Heat
 
-::: {.callout-warning title="Hot-day counts are being checked"}
-The hot days use NASA POWER's daily maximum temperature. For recent months NASA fills these from a different model (GEOS-IT) than the 1991–2020 thresholds (MERRA-2). For mean temperature, ERA5 shows 1 October to 15 November 2026 about 1.2 °C cooler than NASA POWER. If maximum temperatures are affected the same way, the counts below are too high. A check against ERA5 is in progress. (Added 22 November 2026.)
-:::
-
 ```{r heat}
 #| fig-height: 4.5
 #| fig-alt: "Number of hot days so far this season compared with normal and with 1997/98 and 2015/16."
@@ -173,7 +169,7 @@ if (!is.null(archive)) { p <- plot_dam_history(archive); if (!is.null(p)) p }
 - **El Niño raises the odds of a dry, hot summer; it does not guarantee one.** The very strong 1997/98 event brought near-normal rain to much of the summer rainfall region, while 2015/16 brought widespread drought. Both are shown above for that reason.
 - **Rainfall is estimated from satellites and rain gauges, not read from every gauge.** CHIRPS blends satellite estimates with station records on a 5 km grid. It is good at comparing this season with its own past, and weaker for exact local totals, especially for single thunderstorms.
 - **The latest weeks are preliminary.** Preliminary CHIRPS uses fewer gauges; final values replace them about three weeks after each month ends, so recent figures can change.
-- **Heat figures are modelled.** NASA POWER (about 50 km) fills recent weeks with a near-real-time model and replaces them every few months.
+- **Heat figures are modelled.** ERA5 is a reanalysis on a grid of about 25 km, not a thermometer at each site; its daily maximum comes from hourly values, so it sits a little below a station's true peak. Thresholds and counts both use ERA5, so seasons are compared like with like. The latest weeks are preliminary (ERA5T).
 - **Each region is an index of 5 to 12 sites, not every farm.** Rain falls patchily in summer, and one storm can make a district wetter than its region.
 - **Recent El Niño index values are provisional** and can be revised for up to two months.
 - **Dam totals cover only the dams in the DWS weekly report**, weighted by their capacity.
@@ -198,10 +194,10 @@ knitr::kable(reg_tab)
 
 - **Season:** 1 October to 30 April for the summer-rainfall regions; 1 April to 30 September for the Western Cape. Normal: the 30 seasons starting 1991 to 2020.
 - **Rain:** CHIRPS v3 5-day totals (final where available, otherwise preliminary), the mean of a 0.25° window around each of the region's [sites](../../data/processed/sites.csv), summed from the start of the season. Western Cape winter rain uses CHIRPS monthly totals. Until 21 November 2026 the tracker used NASA POWER rain; a check against CHIRPS showed its near-real-time rain missed early-November storms, so we switched.
-- **Heat:** daily maximum temperature (T2M_MAX) from NASA POWER.
+- **Heat:** daily maximum air temperature at 2 m from [ECMWF ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels) hourly data, read from ECMWF's analysis-ready (ARCO) store (Copernicus Climate Data Store), the highest hourly value of each South African day (midnight to midnight), at the grid point (0.25°) nearest each site. Until 22 November 2026 the tracker used NASA POWER, whose latest months come from a different model and read too warm against ERA5.
 - **Summer rain index:** each summer region's rain so far as a share of its normal full-season total, averaged with each region counted equally, so the wet east does not swamp the dry west.
 - **Hot day:** daily maximum above the site's own 90th percentile for that time of year (1991–2020, ±7-day window). By construction, a normal season has about one hot day in ten. Counted over 1 October to 30 April in every region, including the Western Cape.
-- **Ranks** compare the same dates in every season since 1981/82, the start of the NASA POWER record.
+- **Ranks** compare the same dates in every season since 1981/82, the start of the CHIRPS record.
 - **Do the regions hold together?** For each pair of sites we correlate their seasonal rain totals since 1981 (Spearman's r). Sites should move more with their own region than with any other, and a blind cluster analysis should find the same groups. The check is rerun with every change to the site list (`tests/check_regions.R`).
 - **El Niño strength:** NOAA's Relative Oceanic Niño Index (RONI). An event is five or more overlapping three-month seasons at +0.5 °C or above.
 - **Dams:** DWS Weekly State of Reservoirs, % full weighted by full supply capacity.
@@ -224,6 +220,8 @@ Code: every number on this page is produced by `update_el_nino.R` in the project
 ## Update log
 
 - `r s$as_of`: latest weekly update.
-- 22 November 2026: caution added on hot-day counts (NASA POWER's recent data run warm against ERA5).
+- 22 November 2026: hot days now from ECMWF ERA5 instead of NASA POWER (see method); NASA POWER's latest months ran warm against ERA5, which inflated the counts.
 - 21 November 2026: rain now from CHIRPS v3 instead of NASA POWER (see method).
 - 21 November 2026: sites grouped into six climate regions (five summer-rainfall, plus the Western Cape); dam capacity totals corrected (DWS "Total" rows were counted as dams; % full figures were not affected).
+
+*Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use made of the Copernicus information or data it contains.*

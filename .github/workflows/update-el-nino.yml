@@ -39,10 +39,30 @@ jobs:
             any::knitr
             any::rmarkdown
             any::terra
+            any::ncdf4
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch ERA5 temperatures (ECMWF ARCO store)
+        continue-on-error: true      # if ECMWF is down, the trackers use the saved data
+        env:
+          CDS_PAT: ${{ secrets.CDS_PAT }}
+        run: |
+          pip install -r scripts/requirements.txt
+          python scripts/era5_arco.py
+          git config user.name "sa-in-numbers-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/era5
+          git commit -m "ERA5 temperatures $(date +%F)" || echo "No changes"
+          git push
+
       - name: Fetch data and rebuild charts
+        env:
+          CDS_PAT: ${{ secrets.CDS_PAT }}      
         run: |
           Rscript update_el_nino.R
           Rscript update_sa_temperature.R
@@ -51,7 +71,7 @@ jobs:
         run: |
           git config user.name "sa-in-numbers-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/processed data/archive data/chirps data/sa_temperature
+          git add -A data
           git commit -m "Weekly data update $(date +%F)" || echo "No changes"
           git push
 

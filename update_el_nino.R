@@ -32,7 +32,7 @@ OFFLINE <- "--offline" %in% commandArgs(trailingOnly = TRUE) || isTRUE(getOption
 suppressPackageStartupMessages({
   library(ggplot2)
 })
-for (f in c("R/theme_sain.R", "R/fetch_enso.R", "R/fetch_power.R", "R/fetch_chirps.R",
+for (f in c("R/theme_sain.R", "R/fetch_enso.R", "R/fetch_power.R", "R/fetch_chirps.R", "R/fetch_era5.R",
             "R/fetch_dws.R", "R/metrics_el_nino.R", "R/plots_el_nino.R")) source(f)
 
 dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
@@ -48,12 +48,14 @@ events <- roni_el_nino_events(roni)
 readr::write_csv(roni, "data/processed/roni.csv")
 readr::write_csv(events, "data/processed/el_nino_events.csv")
 
-# 2. Rain (CHIRPS) and heat (NASA POWER) ---------------------------------
+# 2. Rain (CHIRPS) and heat (ERA5 daily maximum) -------------------------
 sites <- read_sites()
 regions <- read_regions()
-power <- fetch_power_all(sites, offline = OFFLINE)
+# Heat: ERA5 daily maximum at each site (until 22 Nov 2026 NASA POWER, whose latest
+# months come from a different model and read too warm). Variable keeps its old name.
+power <- era5_update(sites, offline = OFFLINE)$sites
 power <- trim_to_complete(power)
-message("NASA POWER temperature complete for all sites to ", max(power$date))
+message("ERA5 daily maximum complete for all sites to ", max(power$date))
 # The first run downloads every CHIRPS pentad since 1981 (a few hours, can be
 # resumed); after that only new pentads are fetched.
 rain <- fetch_rain_chirps(sites, regions, offline = OFFLINE)

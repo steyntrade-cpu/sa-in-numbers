@@ -37,7 +37,7 @@ local({
 OFFLINE <- "--offline" %in% commandArgs(trailingOnly = TRUE) || isTRUE(getOption("sain.offline"))
 
 suppressPackageStartupMessages(library(ggplot2))
-for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/sa_temperature.R", "R/metrics_el_nino.R")) source(f)
+for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/fetch_era5.R", "R/sa_temperature.R", "R/metrics_el_nino.R")) source(f)
 
 WINDOW_START <- "10-01"
 WINDOW_END   <- "11-15"            # ERA5 runs ~5 days behind; keep this fixed so reruns agree
@@ -120,12 +120,8 @@ window_means <- function(d, label, w = pts[c("point_id", "weight")]) {
 }
 yrs <- merge(window_means(era5, "era5"), window_means(power, "power"), by = "year", all = TRUE)
 
-# The tracker's own series (all 114 points) for reference
-full <- read.csv("data/processed/sa_temperature_daily.csv")
-full$date <- as.Date(full$date)
-full$point_id <- "all"
-ref <- window_means(full[c("point_id", "date", "t_c")], "power114", data.frame(point_id = "all", weight = 1))
-yrs <- merge(yrs, ref[c("year", "power114_anomaly", "power114_rank_warmest")], by = "year", all.x = TRUE)
+# (Until 22 Nov 2026 the tracker's own NASA POWER 114-point series was added here as a
+# reference; the tracker now uses ERA5 itself, so that comparison no longer applies.)
 
 yrs[] <- lapply(yrs, function(v) if (is.double(v)) round(v, 3) else v)
 dir.create("data/processed", showWarnings = FALSE)
@@ -144,9 +140,9 @@ cat("\n================ ERA5 check:", WINDOW_START, "to", WINDOW_END, "=========
 cat(sprintf("Years compared: %d-%d (%d)\n", min(both$year), max(both$year), nrow(both)))
 cat(sprintf("Agreement of yearly anomalies, ERA5 vs NASA POWER (same 30 points): r = %.2f\n", r))
 cat(sprintf("POWER minus ERA5 anomaly, 2016 onward: %+.2f C a year on average\n", bias_recent))
-cat(sprintf("%d: ERA5 %+.2f C (rank %d of %d); POWER 30 points %+.2f C (rank %d); POWER 114 points %+.2f C (rank %d)\n",
+cat(sprintf("%d: ERA5 %+.2f C (rank %d of %d); NASA POWER %+.2f C (rank %d)\n",
             cur$year, cur$era5_anomaly, cur$era5_rank_warmest, nrow(both), cur$power_anomaly,
-            cur$power_rank_warmest, cur$power114_anomaly, cur$power114_rank_warmest))
+            cur$power_rank_warmest))
 cat(sprintf("Warmest three: ERA5 %s | POWER %s\n", paste(top("era5_t_c"), collapse = ", "),
             paste(top("power_t_c"), collapse = ", ")))
 cat(sprintf("Margin of the warmest year over the next: ERA5 %.2f C, POWER %.2f C\n",

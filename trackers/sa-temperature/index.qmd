@@ -5,17 +5,13 @@ subtitle: "Every day of the year compared with every year since 1981. Updated ev
 
 ```{r setup}
 suppressPackageStartupMessages(library(ggplot2))
-for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/metrics_el_nino.R", "R/sa_temperature.R")) source(f)
+for (f in c("R/theme_sain.R", "R/fetch_power.R", "R/fetch_era5.R", "R/metrics_el_nino.R", "R/sa_temperature.R")) source(f)
 d <- readr::read_csv("data/processed/sa_temperature_daily.csv", show_col_types = FALSE)
 m <- sa_temperature_metrics(as.data.frame(d[, c("date", "t_c", "n_points")]))
 s <- m$summary
 ```
 
 **Latest data: `r fmt_date(s$as_of)`.**
-
-::: {.callout-warning title="The latest months may read too warm"}
-NASA POWER fills the most recent two to three months with a different model (GEOS-IT) from the one behind every earlier year (MERRA-2). For 1 October to 15 November 2026, an independent reanalysis, ECMWF ERA5, is about 1.2 °C cooler than NASA POWER at the same points. Over 1981–2025 the two never differed by more than 0.4 °C for those dates. In ERA5, 1 October to 15 November 2026 is the third warmest since 1981, behind 2015 and 2022, not the warmest. Treat values from the last two to three months as unconfirmed until NASA replaces them with MERRA-2, or until this page switches source. (Check added 22 November 2026.)
-:::
 
 ::: {.headline-grid}
 ::: {.stat}
@@ -88,15 +84,17 @@ plot_sa_temp_years(m)
 ## What the data can't tell us
 
 ::: {.cant-tell}
-- **These are modelled temperatures, not weather-station readings.** NASA POWER (MERRA-2) combines satellite data, weather observations and a weather model on a grid of roughly 50 km. It suits comparing years with each other; local station values will differ.
-- **The latest weeks are provisional.** NASA fills recent weeks with a near-real-time model and replaces them with its long-term record every few months, so recent values can shift a little.
+- **These are modelled temperatures, not weather-station readings.** ERA5 is a reanalysis: a weather model fitted to observations from satellites, weather stations and weather balloons, on a grid of about 25 km. It suits comparing years with each other; local station values will differ.
+- **The latest weeks are preliminary.** ECMWF publishes recent months as "ERA5T" and replaces them with final values two to three months later; the changes are usually a few hundredths of a degree.
+- **Another dataset can rank years differently.** Datasets agree on the big picture but can differ by a few tenths of a degree in a given year; a close ranking (within about 0.2 °C) is effectively a tie.
 - **One national number hides big differences.** The Lowveld, the Karoo and the coast can have very different days; this is the average over the whole country.
 - **A year so far is not a full year.** Ranks for the current year compare the same dates in every year, and can change as the year goes on.
 :::
 
 ## Method
 
-- **Temperature:** daily mean air temperature at 2 m (T2M) from NASA POWER at `r s$n_points` points one degree apart covering South Africa (Lesotho and Eswatini excluded), averaged with weights for grid-cell area (cosine of latitude).
+- **Temperature:** daily mean air temperature at 2 m from [ECMWF ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels) hourly data, read from ECMWF's analysis-ready (ARCO) store (Copernicus Climate Data Store), computed from hourly values over South African days. The national value is the average of all `r s$n_points` ERA5 grid cells (0.25°, about 25 km) inside South Africa (Lesotho and Eswatini excluded), weighted by cell area (cosine of latitude).
+- **Why ERA5:** until 22 November 2026 this page used NASA POWER. NASA POWER fills its latest two to three months from a different model (GEOS-IT) from the one behind every earlier year (MERRA-2). For 1 October to 15 November 2026 it read about 1.2 °C warmer than ERA5, while over 1981–2025 the two never differed by more than 0.4 °C for those dates (`tests/check_era5_temperature.R`). ERA5 is one system from start to finish.
 - **Lines:** a 7-day average (each day and the six before it), so the lines show weather spells rather than single days.
 - **Average:** the 1991–2020 mean for each day of the year (WMO standard period).
 - **Ranks and anomalies:** for the current year, 1 January to the latest date, compared with the same dates in every other year. Full-year values use complete calendar years.
@@ -111,3 +109,9 @@ plot_sa_temp_years(m)
 [grid points](https://github.com/steyntrade-cpu/sa-in-numbers/blob/main/config/sa_grid.csv)
 
 Code: every number on this page is produced by `update_sa_temperature.R` in the project's GitHub repository.
+
+## Update log
+
+- 22 November 2026: switched from NASA POWER to ECMWF ERA5 (see method). NASA POWER had made 1 October to 15 November 2026 the warmest since 1981; a check in ERA5 put it third, behind 2015 and 2022.
+
+*Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use made of the Copernicus information or data it contains.*

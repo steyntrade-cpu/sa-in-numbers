@@ -15,15 +15,18 @@ trackers/el-nino-2026/      the tracker page
 update_el_nino.R            weekly script: fetch -> compute -> charts -> data files
 update_sa_temperature.R     weekly script for the national temperature tracker
 compare_chirps.R            check: NASA POWER rain vs CHIRPS rain
+scripts/era5_arco.py        fetches ERA5 temperatures (Python; run weekly by GitHub)
 stories/                    dated story pages (one folder each) + build_story_charts.R
 config/regions.csv          the six climate regions (five summer-rainfall + Western Cape)
-config/sites.csv            45 sites, each in its own NASA POWER grid cell, with its region
-config/sa_grid.csv          114 points one degree apart across South Africa (temperature)
+config/sites.csv            45 sites with their region (rain windows and heat grid points)
+config/era5_sa_cells.csv    the 1,810 ERA5 grid cells inside South Africa (national temperature)
+config/sa_grid.csv          114 points one degree apart (old NASA POWER grid; used by the ERA5 check)
 R/
   setup.R                   installs the R packages (run once)
   theme_sain.R              house chart style + save_social() for all post sizes
   fetch_enso.R              NOAA RONI (El Niño index)
-  fetch_power.R             NASA POWER max temperature for every site in config/
+  fetch_era5.R              reads the saved ERA5 daily series (national mean, site maximum)
+  fetch_power.R             site and region lists; NASA POWER download (now only for checks)
   fetch_chirps.R            CHIRPS v3 rain (pentads and months), cached in data/chirps/
   sa_temperature.R          South Africa's national daily temperature: data and charts
   fetch_dws.R               DWS weekly dam levels (scraped) + weekly archive
@@ -45,25 +48,29 @@ tests/check_regions.R       checks that each region's sites rise and fall togeth
    RStudio or Positron is optional but handy.
 2. Open a terminal in this folder and install the packages once:
    `Rscript R/setup.R`
-3. Fetch the real data and build everything:
-   `Rscript update_el_nino.R`
-   Each run downloads about 45 years of daily data for 45 sites from NASA POWER,
-   so allow 5-10 minutes. The console prints the headline numbers at the end.
-4. Check the regions hold together: `Rscript tests/check_regions.R`. Every region
+3. Set up Copernicus access once (free): create an account at
+   https://cds.climate.copernicus.eu, accept the ERA5 licence (CC BY 4.0) on any ERA5
+   dataset page (Download tab, Terms of use), copy your Personal Access Token from your
+   CDS profile and save it as the GitHub repository secret `CDS_PAT`.
+4. Fetch the data and build everything. ERA5 temperatures come from
+   `scripts/era5_arco.py` (Python), which the weekly GitHub workflow runs first; its first
+   run reads every year since 1981 and commits `data/era5/`. On your computer, `git pull`
+   to get it, then `Rscript update_sa_temperature.R` and `Rscript update_el_nino.R`.
+   To run the Python step yourself: `pip install -r scripts/requirements.txt`, set the
+   environment variable `CDS_PAT` to your token, then `python scripts/era5_arco.py`.
+5. Check the regions hold together: `Rscript tests/check_regions.R`. Every region
    should say OK. It also writes `outputs/region_check_correlation.png`.
-5. Check the dam data came through: open `data/processed/dams_summary_latest.csv`.
+6. Check the dam data came through: open `data/processed/dams_summary_latest.csv`.
    If it is missing, the DWS page layout may have changed. See "If something breaks".
-6. Look at the site locally: `quarto preview`
-7. Publish to GitHub Pages: create a repo called `sa-in-numbers` (ideally under a
-   GitHub organisation for the brand), push this folder, edit the placeholders in
-   `_quarto.yml`, then run `quarto publish gh-pages`.
+7. Look at the site locally: `quarto preview`
+8. Publish: push to GitHub; the weekly workflow renders and publishes to GitHub Pages.
 
 ## Rain: CHIRPS v3
 
 Rain comes from CHIRPS v3 (satellite estimates blended with rain gauges, ~5 km,
 5-day totals). Until 21 November 2026 the tracker used NASA POWER rain; a check
 (`compare_chirps.R`) showed that NASA POWER's near-real-time rain missed the
-early-November storms, so rain was switched to CHIRPS. Heat still uses NASA POWER.
+early-November storms, so rain was switched to CHIRPS. Heat moved to ERA5 on 22 November 2026.
 
 - **First run:** downloads every October-April pentad since 1981 for the summer
   sites, and April-September monthly totals for the Western Cape (about 1,800
@@ -81,11 +88,18 @@ early-November storms, so rain was switched to CHIRPS. Heat still uses NASA POWE
 Rscript update_sa_temperature.R
 ```
 
-Daily mean temperature (NASA POWER T2M) at 114 points one degree apart across South
-Africa (`config/sa_grid.csv`), averaged into one national series since 1981. The first
-run downloads the full record (15-30 minutes; repeated once a year); weekly runs
-re-download only the last two years. The national history is kept in
-`data/sa_temperature/`. Page: `trackers/sa-temperature/index.qmd`.
+Daily mean temperature at 2 m from ECMWF ERA5, averaged over all 1,810 ERA5 grid cells
+inside South Africa into one national series since 1981. `scripts/era5_arco.py` reads hourly
+ERA5 straight from ECMWF's analysis-ready (ARCO) Zarr store (no request queue) and writes
+daily values over South African days: the national series to
+`data/era5/national_t2m_daily.csv` and the site daily maxima for the hot days to
+`data/era5/sites_tmax_daily.csv.gz`. `R/fetch_era5.R` reads them. Page:
+`trackers/sa-temperature/index.qmd`.
+
+Until 22 November 2026 both temperature and hot days came from NASA POWER. Its latest
+two to three months come from a different model (GEOS-IT) and read about 1.2 °C too warm
+against ERA5 for October to mid-November 2026 (`tests/check_era5_temperature.R`), so both
+moved to ERA5.
 
 ## Stories
 
@@ -133,16 +147,19 @@ Never publish charts made from the fixtures. Delete `data/raw/` and run online a
   5-12 sites each. After any change, run `Rscript tests/check_regions.R`: every region
   should say OK, and no site should move more with another region than its own. Keep
   the list fixed once the tracker is public, so the normals stay comparable.
-- **Rainfall source**: NASA POWER is gridded (~50 km), modelled data, which suits
-  comparing this season with its own past. A later upgrade is CHIRPS (satellite plus
-  gauges, ~5 km) or SAWS station data.
+- **Data sources**: rain CHIRPS v3 (satellite plus gauges, ~5 km); temperature ECMWF ERA5
+  (reanalysis, ~25 km). Both are gridded estimates that suit comparing a season with its
+  own past; SAWS station data would be the upgrade for local values. ERA5 needs the
+  attribution line on every page that uses it (CC BY 4.0).
 - **Drainage-region names** (`R/plots_el_nino.R`, `DRAINAGE_NAMES`): check against DWS.
 - **Comparison seasons**: 1997/98 and 2015/16 (`COMPARE_SEASONS`), chosen before the
   season because they are the two very strong El Niño summers with opposite outcomes.
 
 ## If something breaks
 
-- **NOAA or NASA download fails:** usually temporary; rerun later. Rerun with
+- **NOAA, CHIRPS or Copernicus download fails:** usually temporary; rerun later. A
+  Copernicus error that mentions a licence or returns 401/403 means the token is missing
+  or the ERA5 licence has not been accepted on the CDS website (see First run, step 3). Rerun with
   `--offline` to rebuild from the last downloaded files.
 - **DWS dam table not found:** run `Rscript tests/test_dws_parser.R`. If it fails, the DWS page changed. Open
   `https://www.dws.gov.za/Hydrology/Weekly/DrainageWeek.aspx?region=C` in a browser and
